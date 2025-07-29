@@ -31,44 +31,6 @@ public class EntityDeathInventoryHandler {
 			return;
 
 		if (event.getEntityLiving() instanceof EntityPlayer && !world.getGameRules().getBoolean("keepInventory")) {
-			final EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-			IPlayerDeathLocationCapability cap = player.getCapability(PlayerDeathLocationCapability.CAPABILITY_PLAYER_DEATH_LOCATION, null);
-			BlockPos deathPos=player.getPosition();
-			//Prevent void issue (Y<0)
-			BlockPos posBones=new BlockPos(deathPos.getX(),Math.max(2,deathPos.getY()+1),deathPos.getZ());
-			EnumFacing playerFacing = player.getHorizontalFacing();
-			for (EnumFacing offset : EnumFacing.HORIZONTALS) {
-					BlockPos offeredPos=posBones.offset(offset);
-					if (world.getBlockState(offeredPos).getMaterial().isReplaceable()) {
-						posBones = offeredPos;
-						break;
-					}
-			}
-			world.setBlockState(posBones, ModBlocks.BLOCK_OF_BONES.getDefaultState().withProperty(BlockBones.FACING, playerFacing), 3);
-			cap.setGraveDimension(player.world.provider.getDimension());
-			cap.setGraveDimensionName(player.world.provider.getDimensionType().getName());
-			cap.setGraveLocationX(posBones.getX());
-			cap.setGraveLocationZ(posBones.getZ());
-			cap.setDeathTime(getDeathTimeNow());
-
-			TileEntityBones tile = Utils.getTileEntity(world, new BlockPos(posBones), TileEntityBones.class);
-			if (tile != null) {
-				int index = 0;
-				for (int i = 0; i < drops.size(); i++) {
-					if (index >= 86 || index >= drops.size())
-						break;
-					EntityItem entityitem = drops.get(index++);
-					if (entityitem != null) {
-						ItemStack stack = entityitem.getItem();
-						if (stack != null) {
-							tile.setInventorySlotContents(i, stack.copy());
-							entityitem.setDead();
-						}
-					}
-				}
-				tile.setOwner("R.I.P. " + player.getCommandSenderEntity().getName());
-				event.setCanceled(true);
-			}
 		}
 	}
 	
