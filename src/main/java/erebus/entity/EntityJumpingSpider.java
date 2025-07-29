@@ -34,7 +34,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityJumpingSpider extends EntitySpider {
-	private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntityScytodes.class, DataSerializers.BYTE);
+	private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntityJumpingSpider.class, DataSerializers.BYTE);
 	private static final DataParameter<Integer> TYPE = EntityDataManager.<Integer>createKey(EntityJumpingSpider.class, DataSerializers.VARINT);
 
 	public EntityJumpingSpider(World world) {
